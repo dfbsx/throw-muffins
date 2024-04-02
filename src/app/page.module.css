@@ -3,7 +3,7 @@
   box-sizing: border-box;
   padding: 24px;
   height: 100vh;
-  overflow-y: hidden;
+  overflow: hidden;
   z-index: 0;
 }
 
@@ -61,7 +61,7 @@
   flex:0.8;
   display: flex;
   justify-content: flex-end;
-  scale:0.8;
+  scale:0.9;
   margin-right: -64px;
 }
 
