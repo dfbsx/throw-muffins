@@ -71,3 +71,17 @@
   bottom: -40px;
   z-index: 2;
 }
+
+.textButton{
+  color:#F29495;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.modal{
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:16px
+}
