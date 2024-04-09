@@ -1,17 +1,20 @@
-.bar{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    padding: 8px;
-    justify-content: space-between;
-    align-items: center;
+.bar {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+  justify-content: space-between;
+  align-items: center;
+  -webkit-box-shadow: 8px 0px 0px 0px rgba(66, 68, 90, 1);
+  -moz-box-shadow: 8px 0px 0px 0px rgba(66, 68, 90, 1);
+  box-shadow: 8px 0px 0px 0px rgba(66, 68, 90, 1);
 }
 
-.appName{
-    display: flex;
-    align-items: center;
+.appName {
+  display: flex;
+  align-items: center;
 }
 
-.icon{
-    scale: 0.7;
+.icon {
+  scale: 0.7;
 }
