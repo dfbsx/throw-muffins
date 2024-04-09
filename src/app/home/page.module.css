@@ -38,6 +38,11 @@
   -webkit-box-shadow: 0px 0px 8px -3px rgba(66, 68, 90, 1);
   -moz-box-shadow: 0px 0px 8px -3px rgba(66, 68, 90, 1);
   box-shadow: 0px 0px 8px -3px rgba(66, 68, 90, 1);
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
+}
+
+.pill{
+    color: #f26c6e;
+    background-color: #f7e4e5;
 }
