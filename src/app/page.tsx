@@ -75,7 +75,7 @@ export default function HomePage() {
           <img src="muffin.svg" alt="Muffin" />
         </div>
       </div>
-      <img className={styles.vave} src="vawe.svg" alt="Vave" />
+      <img className={styles.vave} src="wave.svg" alt="Wave" />
     </div>
   );
 }
