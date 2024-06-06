@@ -1,12 +1,22 @@
 "use client";
-import { Button, Modal, Title, Text, Input, PasswordInput } from "@mantine/core";
+import {
+  Button,
+  Modal,
+  Title,
+  Text,
+  Input,
+  PasswordInput,
+} from "@mantine/core";
 import styles from "./page.module.css";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import { register } from "../api/register";
+import { login } from "../api/login";
+import { useRouter } from 'next/navigation'
 
 export default function HomePage() {
-  const [login, { open: ologin, close: clogin }] = useDisclosure(false);
+  const router = useRouter()
+  const [loginM, { open: ologin, close: clogin }] = useDisclosure(false);
   const [registerM, { open: oregister, close: cregister }] =
     useDisclosure(false);
   const [registerData, setRegister] = useState({
@@ -14,28 +24,65 @@ export default function HomePage() {
     username: "",
     password: "",
   });
+  const [logData, setLogData] = useState({
+    username: "",
+    password: "",
+  });
   const handleRegister = () => {
-      register(registerData)
-        .then((resp) => {
-          console.log("Resp", resp);
-          //setisLoggedIn(true);
-          /*dispatch(authenticate(resp.data.userName,resp.data.token))
+    register(registerData)
+      .then((resp) => {
+        router.push('/home')
+        console.log("Resp", resp);
+        //setisLoggedIn(true);
+        /*dispatch(authenticate(resp.data.userName,resp.data.token))
           .then(()=>{
               navigate("/accountview")
             })*/
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handleLogin = () => {
+    console.log(logData);
+    login(logData)
+      .then((resp) => {
+        router.push('/home')
+      })
+      .catch((error) => {
+        alert("Wprowadzone dane są niepoprawne");
+      });
   };
   return (
     <div className={styles.homeLayout}>
-      <Modal opened={login} onClose={clogin} withCloseButton={false} centered>
+      <Modal opened={loginM} onClose={clogin} withCloseButton={false} centered>
         <div className={styles.modal}>
           <Text size="xl">How's your muffins?</Text>
-          <Input size="md" radius="xl" placeholder="Login" />
-          <Input size="md" radius="xl" placeholder="Password" />
-          <Button variant="filled" color="#F29495" size="md" radius="xl">
+          <Input
+            size="md"
+            radius="xl"
+            placeholder="Login"
+            value={logData.username}
+            onChange={(e) =>
+              setLogData({ ...logData, username: e.target.value })
+            }
+          />
+          <Input
+            size="md"
+            radius="xl"
+            placeholder="Password"
+            value={logData.password}
+            onChange={(e) =>
+              setLogData({ ...logData, password: e.target.value })
+            }
+          />
+          <Button
+            variant="filled"
+            color="#F29495"
+            size="md"
+            radius="xl"
+            onClick={handleLogin}
+          >
             I'm back!
           </Button>
           <Text size="xs" c="dimmed">
@@ -73,7 +120,7 @@ export default function HomePage() {
             }
           />
           <PasswordInput
-          style={{width:'78%'}}
+            style={{ width: "78%" }}
             size="md"
             radius="xl"
             placeholder="Password"
