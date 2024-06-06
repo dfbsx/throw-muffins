@@ -32,12 +32,6 @@ export default function HomePage() {
     register(registerData)
       .then((resp) => {
         router.push('/home')
-        console.log("Resp", resp);
-        //setisLoggedIn(true);
-        /*dispatch(authenticate(resp.data.userName,resp.data.token))
-          .then(()=>{
-              navigate("/accountview")
-            })*/
       })
       .catch((error) => {
         console.log(error);
