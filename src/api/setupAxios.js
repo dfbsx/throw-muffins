@@ -9,6 +9,5 @@ const setupAxios = () => {
     (err) => Promise.reject(err)
   );
 };
-console.log("lolo",process.env.TOKEN)
 
 export default setupAxios;
