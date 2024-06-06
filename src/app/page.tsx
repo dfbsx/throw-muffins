@@ -1,12 +1,33 @@
 "use client";
-import { Button, Modal, Title, Text, Input } from "@mantine/core";
+import { Button, Modal, Title, Text, Input, PasswordInput } from "@mantine/core";
 import styles from "./page.module.css";
 import { useDisclosure } from "@mantine/hooks";
+import { useState } from "react";
+import { register } from "../api/register";
 
 export default function HomePage() {
   const [login, { open: ologin, close: clogin }] = useDisclosure(false);
-  const [register, { open: oregister, close: cregister }] =
+  const [registerM, { open: oregister, close: cregister }] =
     useDisclosure(false);
+  const [registerData, setRegister] = useState({
+    email: "",
+    username: "",
+    password: "",
+  });
+  const handleRegister = () => {
+      register(registerData)
+        .then((resp) => {
+          console.log("Resp", resp);
+          //setisLoggedIn(true);
+          /*dispatch(authenticate(resp.data.userName,resp.data.token))
+          .then(()=>{
+              navigate("/accountview")
+            })*/
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  };
   return (
     <div className={styles.homeLayout}>
       <Modal opened={login} onClose={clogin} withCloseButton={false} centered>
@@ -14,31 +35,67 @@ export default function HomePage() {
           <Text size="xl">How's your muffins?</Text>
           <Input size="md" radius="xl" placeholder="Login" />
           <Input size="md" radius="xl" placeholder="Password" />
-          <Button variant="filled" color="#F29495" size="md" radius="xl" >
+          <Button variant="filled" color="#F29495" size="md" radius="xl">
             I'm back!
           </Button>
           <Text size="xs" c="dimmed">
             No account yet?{" "}
-            <span onClick={oregister} className={styles.textButton}>Click here</span>
+            <span onClick={oregister} className={styles.textButton}>
+              Click here
+            </span>
           </Text>
         </div>
       </Modal>
       <Modal
-        opened={register}
+        opened={registerM}
         onClose={cregister}
         withCloseButton={false}
         centered
       >
         <div className={styles.modal}>
           <Text size="xl">Let us change your life!</Text>
-          <Input size="md" radius="xl" placeholder="Login" />
-          <Input size="md" radius="xl" placeholder="Password" />
-          <Button variant="filled" color="#F29495" size="md" radius="xl">
+          <Input
+            size="md"
+            radius="xl"
+            placeholder="Login"
+            value={registerData.username}
+            onChange={(e) =>
+              setRegister({ ...registerData, username: e.target.value })
+            }
+          />
+          <Input
+            size="md"
+            radius="xl"
+            placeholder="Email"
+            value={registerData.email}
+            onChange={(e) =>
+              setRegister({ ...registerData, email: e.target.value })
+            }
+          />
+          <PasswordInput
+          style={{width:'78%'}}
+            size="md"
+            radius="xl"
+            placeholder="Password"
+            value={registerData.password}
+            onChange={(e) =>
+              setRegister({ ...registerData, password: e.target.value })
+            }
+          />
+          <Button
+            variant="filled"
+            color="#F29495"
+            size="md"
+            radius="xl"
+            onClick={handleRegister}
+          >
             I'm in!
           </Button>
           <Text size="xs" c="dimmed">
             Already have an account?{" "}
-            <span onClick={ologin} className={styles.textButton}>Log in</span>
+            <span onClick={ologin} className={styles.textButton}>
+              Log in
+            </span>
           </Text>
         </div>
       </Modal>

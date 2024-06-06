@@ -1,0 +1,1 @@
+export default 'https://throwmuffinxapi.azurewebsites.net/api/v1'
