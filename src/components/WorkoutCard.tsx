@@ -8,12 +8,22 @@ import {
   Image,
   List,
   Text,
+  stylesToString,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
+import "../components/workoutCard.css";
 
-export default function WorkoutCard() {
+export default function WorkoutCard(props:any) {
+  const data = props;
+  console.log("data", data.props);
   const [opened, { toggle }] = useDisclosure(false);
+  const date = new Date(data.props.DateCreated);
+
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const formattedDate = `${year}-${month}-${day}`;
   return (
     <Box w={300} mx="auto">
       <Card shadow="lg" padding="lg" radius="md" withBorder>
@@ -26,25 +36,34 @@ export default function WorkoutCard() {
         </Card.Section>
 
         <Group justify="space-between" mt="md" mb="xs">
-          <Text fw={500}>Flat stomach</Text>
-          <Badge color="#f26c6e">5 steps</Badge>
+          <Text fw={500}>{formattedDate}</Text>
+          <Badge color="#f26c6e">{data.props.Excercises.length} Steps</Badge>
         </Group>
         <Button variant="transparent" fullWidth mt="xs" onClick={toggle}>
-          {opened === false?<FaAngleDown size="2xl" style={{ color: "#a6a6a6" }} />:<FaAngleUp size="2xl" style={{ color: "#a6a6a6" }} />}
-          
+          {opened === false ? (
+            <FaAngleDown size="2xl" style={{ color: "#a6a6a6" }} />
+          ) : (
+            <FaAngleUp size="2xl" style={{ color: "#a6a6a6" }} />
+          )}
         </Button>
         <Collapse in={opened}>
           <Text>
             <List type="ordered" size="sm">
-              <List.Item>Clone or download repository from GitHub</List.Item>
-              <List.Item>Install dependencies with yarn</List.Item>
-              <List.Item>
-                To start development server run npm start command
-              </List.Item>
-              <List.Item>
-                Run tests to make sure your changes do not break the build
-              </List.Item>
-              <List.Item>Submit a pull request once you are done</List.Item>
+              {data &&
+                data.props.Excercises.map((step: any, index: number) => (
+                  <List.Item key={index}>
+                    <span className="listItem">
+                    <strong>{step.Name}</strong>
+                    <a href={step.Instructions}>
+                    <button
+                      className="link"
+                    >
+                      Instruction
+                    </button>
+                    </a>
+                    </span>
+                  </List.Item>
+                ))}
             </List>
           </Text>
         </Collapse>

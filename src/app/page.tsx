@@ -12,10 +12,10 @@ import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import { register } from "../api/register";
 import { login } from "../api/login";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
-  const router = useRouter()
+  const router = useRouter();
   const [loginM, { open: ologin, close: clogin }] = useDisclosure(false);
   const [registerM, { open: oregister, close: cregister }] =
     useDisclosure(false);
@@ -25,13 +25,13 @@ export default function HomePage() {
     password: "",
   });
   const [logData, setLogData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const handleRegister = () => {
     register(registerData)
       .then((resp) => {
-        router.push('/home')
+        router.push("/home");
       })
       .catch((error) => {
         console.log(error);
@@ -41,7 +41,9 @@ export default function HomePage() {
     console.log(logData);
     login(logData)
       .then((resp) => {
-        router.push('/home')
+        console.log("resp",resp)
+        router.push("/home");
+        localStorage.setItem("throwMuffin", resp.data.access_token);
       })
       .catch((error) => {
         alert("Wprowadzone dane są niepoprawne");
@@ -56,12 +58,13 @@ export default function HomePage() {
             size="md"
             radius="xl"
             placeholder="Login"
-            value={logData.username}
+            value={logData.email}
             onChange={(e) =>
-              setLogData({ ...logData, username: e.target.value })
+              setLogData({ ...logData, email: e.target.value })
             }
           />
-          <Input
+          <PasswordInput
+            style={{ width: "78%" }}
             size="md"
             radius="xl"
             placeholder="Password"

@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 const setupAxios = () => {
   axios.interceptors.request.use(
     (config) => {

@@ -1,0 +1,11 @@
+.listItem{
+    display: flex;
+    flex-direction: column;
+}
+
+.link{
+    background-color: transparent;
+    border: none;
+    color: #3275a8;
+    cursor: pointer;
+}

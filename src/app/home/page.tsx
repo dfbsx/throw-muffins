@@ -1,9 +1,27 @@
 "use client";
-import { Button, Pill, PillsInput, SimpleGrid, Title } from "@mantine/core";
+import { Button, Flex, Pill, PillsInput, Title } from "@mantine/core";
 import styles from "./page.module.css";
 import Header from "@/components/Header";
 import WorkoutCard from "@/components/WorkoutCard";
+import { getAllPlans } from "../../api/getAllPlans";
+import { useEffect, useState } from "react";
 export default function Home() {
+  const auth = localStorage.getItem("throwMuffin") || "{}";
+  const [workoutCards, setWorkoutCards] = useState();
+  useEffect(() => {
+    getAllPlans(auth)
+      .then((resp) => {
+        setWorkoutCards(resp.data);
+      })
+      .catch((err) => {
+        console.log("err", err);
+        alert(
+          err.response.data.title
+            ? err.response.data.title
+            : "Wystąpił nieznany błąd"
+        );
+      });
+  },[]);
   return (
     <div className={styles.page}>
       <Header />
@@ -33,12 +51,19 @@ export default function Home() {
       <Title className={styles.cardsHeader} order={3}>
         Already generated:
       </Title>
-      <SimpleGrid className={styles.grid} cols={3} spacing="sm" verticalSpacing="sm">
-        <WorkoutCard />
-        <WorkoutCard />
-        <WorkoutCard />
-        <WorkoutCard />
-      </SimpleGrid>
+      <Flex
+        className={styles.grid}
+        gap="md"
+        justify="flex-start"
+        align="flex-start"
+        direction="row"
+        wrap="wrap"
+      >
+        {workoutCards &&
+          workoutCards.map((card: any, index: number) => (
+            <WorkoutCard key={index} props={card} />
+          ))}
+      </Flex>
     </div>
   );
 }
