@@ -36,7 +36,7 @@ export default function Home() {
             : "Wystąpił nieznany błąd"
         );
       });
-  },[reload]);
+  },[reload,auth]);
   const handleValueSelect = (val: string) =>
     setValue((current) =>
       current.includes(val) ? current.filter((v) => v !== val) : [ val]
