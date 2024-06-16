@@ -4,7 +4,10 @@ import styles from "./page.module.css";
 import Header from "@/components/Header";
 import WorkoutCard from "@/components/WorkoutCard";
 import { getAllPlans } from "../../api/getAllPlans";
+import {generateWorkout} from "../../api/generateWorkout"
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 export default function Home() {
   const auth:string = localStorage.getItem("throwMuffin") || "{}";
   const [workoutCards, setWorkoutCards] = useState<React.ReactNode[]>();
@@ -15,6 +18,7 @@ export default function Home() {
   });
   const [search, setSearch] = useState('');
   const [value, setValue] = useState<string[]>([]);
+  const [reload,setReload] =useState(false);
   useEffect(() => {
     getAllPlans(auth)
       .then((resp) => {
@@ -28,7 +32,7 @@ export default function Home() {
             : "Wystąpił nieznany błąd"
         );
       });
-  },[]);
+  },[reload]);
   const handleValueSelect = (val: string) =>
     setValue((current) =>
       current.includes(val) ? current.filter((v) => v !== val) : [ val]
@@ -36,6 +40,26 @@ export default function Home() {
 
   const handleValueRemove = (val: string) =>
     setValue((current) => current.filter((v) => v !== val));
+  console.log(!value[0])
+  const handleGenerate = () =>{
+    if(!value[0]){
+      alert('Please, select one aim')
+    }
+    else{
+    generateWorkout(auth,value[0])
+      .then((resp) => {
+        setReload(!reload)
+      })
+      .catch((err) => {
+        console.log("err", err);
+        alert(
+          err.response.data.title
+            ? err.response.data.title
+            : "Wystąpił nieznany błąd"
+        );
+      });
+    }
+  }
 
   const values = value.map((item) => (
     <Pill key={item} withRemoveButton onRemove={() => handleValueRemove(item)}>
@@ -96,7 +120,7 @@ export default function Home() {
         </Combobox.Options>
       </Combobox.Dropdown>
     </Combobox>
-        <Button variant="filled" color="#F29495" size="sm" radius="xl">
+        <Button variant="filled" color="#F29495" size="sm" radius="xl" onClick={handleGenerate}>
           Let's magic begin!
         </Button>
       </div>

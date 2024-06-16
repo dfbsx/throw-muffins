@@ -16,7 +16,6 @@ import "../components/workoutCard.css";
 
 export default function WorkoutCard(props:any) {
   const data = props;
-  console.log("data", data.props);
   const [opened, { toggle }] = useDisclosure(false);
   const date = new Date(data.props.DateCreated);
 
