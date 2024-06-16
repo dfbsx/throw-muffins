@@ -7,7 +7,7 @@ import { getAllPlans } from "../../api/getAllPlans";
 import { useEffect, useState } from "react";
 export default function Home() {
   const auth:string = localStorage.getItem("throwMuffin") || "{}";
-  const [workoutCards, setWorkoutCards] = useState();
+  const [workoutCards, setWorkoutCards] = useState<React.ReactNode[]>();
   const aims = ['Chest','Shoulder','Biceps','Triceps','Legs','Cardio'];
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
