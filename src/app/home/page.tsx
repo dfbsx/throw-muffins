@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const auth:string = localStorage.getItem("throwMuffin") || "{}";
   const [workoutCards, setWorkoutCards] = useState<React.ReactNode[]>();
+  const [auth, setAuth] = useState<string>("");
   const aims = ['Chest','Shoulder','Biceps','Triceps','Legs','Cardio'];
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
@@ -20,6 +20,10 @@ export default function Home() {
   const [value, setValue] = useState<string[]>([]);
   const [reload,setReload] =useState(false);
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedAuth = localStorage.getItem("throwMuffin") || "{}";
+      setAuth(storedAuth)
+    }
     getAllPlans(auth)
       .then((resp) => {
         setWorkoutCards(resp.data);
